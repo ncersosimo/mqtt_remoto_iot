@@ -20,7 +20,7 @@ Topicos que soporta este mock drone emulado:
 |             |             | datos ejemplo
 | ----------  | --------    | -----
 |  sensores   | gps         | {"latitude": -34.55, "longitude": -58.496}
-|  sensores   | inerciales | {"heading": 160, accel: 4.5}
+|  sensores   | inerciales | {"heading": 160, "accel": 4.5}
 
 
 ### 2 - Lanzar el simulador sensores mock
