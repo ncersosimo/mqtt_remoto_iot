@@ -44,7 +44,7 @@ Tome el script "ejemplo_4_sensores_mock.py" el cual viene con la conectividad a 
 Dentro de la función "on_connect_local" agregar las lineas requeridas para suscribirse a los tópicos de gps e inerciales:
 ```python
 client.subscribe("sensores/gps")
-client.subscribe("sensores/inericiales")
+client.subscribe("sensores/inerciales")
 ```
 
 Crear la función de "on_message" que utilizaremos para capturar los mensajes que llegan a los topicos suscriptos al MQTT local:
