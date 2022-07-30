@@ -1,4 +1,4 @@
-# Ejemplos de clase
+## Ejemplos de clase
 
 ### 1 - Preparar el entorno de trabajo
 
