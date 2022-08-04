@@ -66,3 +66,7 @@ client.loop_stop()
 
 ### 3 - Verificación
 Verificar con MQTTExplorer que los datos están siendo enviados correctamente.
+
+
+### 4 - Obtener sus propias coordenadas GPS
+Utilice cualquier herramienta mapa (como google maps) y obtenga las coordenadas GPS de su interés y utilicelas en el programa.
