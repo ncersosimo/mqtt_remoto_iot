@@ -1,6 +1,6 @@
 # Ejemplos de clase
 
-En esta práctica utilizaremos el simulador de celular drone "drone_iot" para realizar análisis de señales sobre los valores reales informados por el celular.
+En esta práctica utilizaremos el simulador "drone_iot" con de celular para realizar análisis de señales sobre los valores reales informados por el celular.
 
 En caso que usted no desee user o no pueda usar el simulador "drone_iot" junto a su celular, puede utilizar el simulador "sensores_mock". 
 

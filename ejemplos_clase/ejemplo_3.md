@@ -1,40 +1,48 @@
 # Ejemplos de clase
 
-En esta práctica utilizaremos el simulador "drone_iot" con de celular para obtener valores de sensores reales informados por el celular.
-
-En caso que usted no desee user o no pueda usar el simulador "drone_iot" junto a su celular, puede utilizar el simulador "sensores_mock" que se introducirá en otra práctica. 
+En esta práctica utilizaremos el MQTT remoto alocado en el servidor de inove, veremos como establecer la IP del broker y las credenciales de acceso.
 
 Logearse desde VM y obtener cual es la dirección IP del dispositivo:
 ```sh
 $ ifconfig
 ```
 
-### 1 - Preparar el entorno de trabajo
+Conectarse por ssh desde una terminal del host
+```
+$ ssh inove@<ip_dispositivo>
+```
 
-Abrir el Visual Studio Code y conectarse de forma remota al dispositivo. Trabajaremos sobre la carpeta recientemente clonada de este repositorio.
+### 1 - Logearse al dashboard
+Utilice su usuario del campus y como contraseña "inoveiot":
+```
+url: http://inoveiot.herokuapp.com/login
+usuario: <usario_campus>
+password: inoveiot
+```
 
-Clonar el repositorio del simulador de sensores:
+### 1 - Suscriptor remoto
+
+Suscriberse al tópico "dashboardiot/<usario_campus>/actuadores/luces/1" desde la consola. La consola quedará tomada a la espera de los mensajes provenientes de este tópico. Deberá incluir a su vez incluir las credenciales de MQTT:
+```
+mqtt_host: 23.92.69.190
+mqtt_username: inoveiot
+mqtt_password: mqtt
+```
 ```sh
-$ git clone https://github.com/InoveAlumnos/drone_iot
+$ mosquitto_sub -h 23.92.69.190 -u "inoveiot" -P "mqtt" -v -t dashboardiot/<usario_campus>/actuadores/luces/1 
 ```
 
-Topicos que soporta que utilizaremos de este mock:
-|             |             | datos ejemplo
-| ----------  | --------    | -----
-|  sensores   | gps         | {"latitude": -34.55, "longitude": -58.496}
-|  sensores   | inericiales | {"heading": 160, accel: 4.5}
+### 2 - Publicador remoto
 
-
-### 2 - Lanzar el simulador drone iot
-Desde ssh conectado a la VM, ingresar a la carpeta clonada del "drone_iot" y lanzar la aplicación:
+Logearse desde otra terminal por ssh. Enviar un mensaje al tópico antes establecido usando las credenciales del MQTT remoto. Al enviar el mensaje deberemos ver en la otra terminal como llega el dato enviado:
 ```sh
-$ python3 app.py
+$ mosquitto_pub -h 23.92.69.190 -u "inoveiot" -P "mqtt" -t dashboardiot/<usario_campus>/actuadores/luces/1 -m 1
 ```
 
-Ingresar a su explorador web e ingresar a al aplicación del drone. Recuerde ingresar con la URL en https y aceptar el ingreso "inseguro" a la app.
-```
-https://<ip_VM>:5010
-```
+### 3 - Verificación
+Veriricar en el dashboard como se prende o apaga la luz
 
-### 3 - Ensayar que el simulador funcione
-Utilizar el MQTTExplorar y verificar de esta manera el correcto funcionamiento de cada sensor disponible del celular.
+Para ver todos los mensajes que esten llegando al dashboard por diferentes usuarios:
+```sh
+$ mosquitto_sub -h 23.92.69.190 -u "inoveiot" -P "mqtt" -v -t dashboardiot/#
+```
