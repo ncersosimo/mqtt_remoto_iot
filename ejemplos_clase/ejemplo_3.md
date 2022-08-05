@@ -1,32 +1,40 @@
 # Ejemplos de clase
 
+En esta práctica utilizaremos el simulador "drone_iot" con de celular para obtener valores de sensores reales informados por el celular.
+
+En caso que usted no desee user o no pueda usar el simulador "drone_iot" junto a su celular, puede utilizar el simulador "sensores_mock" que se introducirá en otra práctica. 
+
+Logearse desde VM y obtener cual es la dirección IP del dispositivo:
+```sh
+$ ifconfig
+```
+
 ### 1 - Preparar el entorno de trabajo
 
 Abrir el Visual Studio Code y conectarse de forma remota al dispositivo. Trabajaremos sobre la carpeta recientemente clonada de este repositorio.
 
-
-### 2 - GPS Mock
-Desde el VSC abrir el script de "ejemplo_3_gps_mock.py". Este archivo posee la solución realizada para el ejemplo_1, el cual reporta la posición de GPS al MQTT local.
-
-Dentro del bloque principal del programa, modificar como el cliente se conecta al MQTT remoto del dashboardiot:
-```python
-random_id = random.randint(1, 999)
-client = paho.Client(f"gps_mock_remoto_{random_id}")
-client.on_connect = on_connect
-# Configurar las credenciales del broker remoto
-client.username_pw_set(config["DASHBOARD_MQTT_USER"], config["DASHBOARD_MQTT_PASSWORD"])
-client.connect(config["DASHBOARD_MQTT_BROKER"], int(config["DASHBOARD_MQTT_PORT"]))
-client.loop_start()
+Clonar el repositorio del simulador de sensores:
+```sh
+$ git clone https://github.com/InoveAlumnos/drone_iot
 ```
 
-Modificar el topico para que sea enviado según como el dashboard lo espera:
-```python
-topico = "dashboardiot/<usuario_campus>/" + "sensores/gps"
+Topicos que soporta que utilizaremos de este mock:
+|             |             | datos ejemplo
+| ----------  | --------    | -----
+|  sensores   | gps         | {"latitude": -34.55, "longitude": -58.496}
+|  sensores   | inericiales | {"heading": 160, accel: 4.5}
+
+
+### 2 - Lanzar el simulador drone iot
+Desde ssh conectado a la VM, ingresar a la carpeta clonada del "drone_iot" y lanzar la aplicación:
+```sh
+$ python3 app.py
 ```
 
-Cada alumno puede proponer modificar como evoluciona la posición de GPS o la posición de GPS inicial en la variable data. Ingresar a google maps y mostrar como obtener una posición de GPS.
+Ingresar a su explorador web e ingresar a al aplicación del drone. Recuerde ingresar con la URL en https y aceptar el ingreso "inseguro" a la app.
+```
+https://<ip_VM>:5010
+```
 
-
-### 3 - Verificación
-- Verificar con MQTTExplorer que los datos están siendo enviados correctamente al MQTT remoto.
-- Observar en el dashboard como evoluciona la posición de GPS de cada alumno.
+### 3 - Ensayar que el simulador funcione
+Utilizar el MQTTExplorar y verificar de esta manera el correcto funcionamiento de cada sensor disponible del celular.
