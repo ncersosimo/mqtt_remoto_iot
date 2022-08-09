@@ -14,7 +14,7 @@ def on_connect_local(client, userdata, flags, rc):
 
         # Alumno: Suscribirse a los topicos locales deseados
         client.subscribe("sensores/gps")
-        client.subscribe("sensores/inericiales")
+        client.subscribe("sensores/inerciales")
     else:
         print(f"Mqtt Local connection faild, error code={rc}")
 

@@ -6,7 +6,6 @@ from dotenv import dotenv_values
 
 config = dotenv_values()
 
-
 THRESHOLD_INICIO = 3
 THRESHOLD_FIN = 10
 
@@ -37,19 +36,59 @@ def on_connect_remoto(client, userdata, flags, rc):
 # Aquí crear el callback on_message
 def on_message(client, userdata, message):
     client_remoto = userdata["client_remoto"]
+    estado_sistema = userdata["estado_sistema"]
     topico = message.topic
     mensaje = str(message.payload.decode("utf-8"))
-    print(f"mensaje recibido {mensaje} en topico {topico}")
+
     topico_remoto = config["DASHBOARD_TOPICO_BASE"] + topico
     client_remoto.publish(topico_remoto, mensaje)
 
     # Consultar si el tópico es de los sensores inerciales
+    if topico == "sensores/inerciales":
+        data = json.loads(mensaje)
+        accel = float(data["accel"])
+        print(f"Accel {accel}")
 
         # Máquina de estados
+        if estado_sistema == ESTADO_INICIO:
+            if accel > THRESHOLD_INICIO:
+                # Se ha detectado una aceleración
+                # mayor al threshold de inicio, se pasa
+                # al estado "en presencia de posible flanco"
+                estado_sistema = ESTADO_PRESENCIA_FLANCO
+                print(f"ESTADO_PRESENCIA_FLANCO {accel}")
 
+        elif estado_sistema == ESTADO_PRESENCIA_FLANCO:
+            if accel < THRESHOLD_INICIO:
+                # La aceleración a disminuido,
+                # se pasa al estado de inicio
+                estado_sistema = ESTADO_INICIO
+                print(f"ESTADO_INICIO {accel}")
 
-    # Almacenar el nuevo valor de estado
-    userdata["estado_sistema"] = estado_sistema
+            elif accel > THRESHOLD_FIN:
+                # Se ha detectado una aceleración
+                # mayor al threshold de fin de flanco, se pasa
+                # al estado "flanco confirmado" y se prende la luz
+                estado_sistema = ESTADO_FLANCO_CONFIRMADO
+
+                topico = "actuadores/luces/1"
+                topico_remoto = config["DASHBOARD_TOPICO_BASE"] + topico
+                client.publish(topico, "1")
+                client_remoto.publish(topico_remoto, "1")
+                print(f"THRESHOLD_FIN {accel}")
+
+        elif estado_sistema == ESTADO_FLANCO_CONFIRMADO:
+            # Se espera a que la aceleración disminuya
+            # y se termine el flanco ascendente
+            if accel < THRESHOLD_INICIO:
+                # La aceleración a disminuido,
+                # se pasa al estado de inicio
+                estado_sistema = ESTADO_INICIO
+                print(f"ESTADO_INICIO {accel}")
+            
+        # Almacenar el nuevo valor de estado
+        userdata["estado_sistema"] = estado_sistema
+
 # ----------------------
 
 

@@ -40,23 +40,24 @@ https://<ip_VM>:5010
 Utilizar el MQTTExplorar y verificar de esta manera el correcto funcionamiento de cada sensor disponible del celular.
 
 
-### 4 - Detección por threshold
-Tome el script "ejemplo_4_sensores_mock.py" el cual viene con la conectividad a MQTT resuelta del ejemplo anterior (tanto para local como para el MQTT remoto)
-
-Dentro de la función "on_message" identificar cuando llega un nuevo mensaje del acelerómetro. Establecer un threshold de valor (entre 2 y 10), __si el valor del acelerómetro supera ese valor__ prender la luz del drone enviando un "publish" al dashboard (topico MQTT remoto).
-
-Observar cuantos mensajes de "prender luz" se envian cuando ocurre un movimiento del celular. ¿No creé que se envian demasiados mensajes?
-
 ### 4 - Detección por flanco o pulso
-Modificar el comportamiento anterior del sistema de análisis del acelerómetro, ahora utilizaremos dos threshold para identificar el concepto de flanco.
+Tome el script "ejemplo_6_signals.py" el cual viene con la conectividad a MQTT resuelta del ejemplo anterior (tanto para local como para el MQTT remoto)
 
+Dentro de la función "on_message" identificar cuando llega un nuevo mensaje del acelerómetro y capturar ese valor (flotante - float) para analizarlo.
+
+Crear los siguients threshold de análisis:
 - Establecer el threshold de inicio de flanco (entre 2 y 5)
 - Establecer el threshold de fin de flanco (entre 6 y 10)
 - Deberá también crear una variable de estado que indique en que proceso del flanco nos encontramos.
-
 - Comenzaremos con la variable de estado en 0, indicando que no ha ocurrido ningún evento.
+
+Estas variables y constantes ya se encuentran definidas al comienzo del archivo
+
+Comportamiento de la máquina de estados:
 - Si el valor leido del acelerómetro supera el threshold de inicio flanco, colocar la variable en estado 1. Con esto indicaremos que estamos en presencia de un posible flanco (aún no confirmado)
 - Si en una próxima lectura el valor baja por debajo del threshold de inicio, diremos que se cancela el flanco volviendo al estado inicial 0.
 - Si en una próxima lectura el valor continua siendo mayor al threshold inicial, nos mantendremos en el estado 1 (en presencia de un posible flanco), hasta que el valor del acelerómetro supere al threshold de fin de flanco, pasando entonces al estado 2 indicando que estamos en presencia de un flanco confirmado.
-- Si nos encontramos en estado 2, enviamos el mensaje de enceder luz y pasamos el estado a valor 3, indicando que nos encontramos a la espera de que el flanco desaparezca.
+- Si nos encontramos en estado 2, enviamos el mensaje de enceder luz con un "publish" al dashboard (tópico MQTT remoto) y al celular (tópic MQTT local) y pasamos el estado a valor 3, indicando que nos encontramos a la espera de que el flanco desaparezca.
 - Si el valor del acelerómetro vuele a quedar por debajo del threshold de inicio de flanco, el estado vuelve a su valor inicial 0 permitiendo que vuelva a comenzar el proceso de detección de flanco.
+
+__NOTA__: Recoemndamos agitar tres veces el celular para que se encienda la luz
