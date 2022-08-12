@@ -50,8 +50,7 @@ THRESHOLD_FIN = 80
 
 ESTADO_INICIO = 0
 ESTADO_PRESENCIA_FLANCO = 1
-ESTADO_PRESENCIA_FLANCO = 2
-ESTADO_FLANCO_CONFIRMADO = 3
+ESTADO_FLANCO_CONFIRMADO = 2
 ```
 
 Cuando el sistema supere la orientación de 80º en sentido flanco ascendente, la luz deberá encenderse.
