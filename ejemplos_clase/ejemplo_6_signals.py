@@ -43,8 +43,23 @@ def on_message(client, userdata, message):
     client_remoto.publish(topico_remoto, mensaje)
 
     # Consultar si el tópico es de los sensores inerciales
+    if topico == "sensores/inerciales":
+        data = json.loads(mensaje)
+        accel = float(data["accel"])
+        print(f"Accel {accel}")
 
         # Máquina de estados
+        if estado_sistema == ESTADO_INICIO:
+            pass
+            # completar el código del estado ESTADO_INICIO
+
+        elif estado_sistema == ESTADO_PRESENCIA_FLANCO:
+            pass
+            # completar el código del estado ESTADO_PRESENCIA_FLANCO
+
+        elif estado_sistema == ESTADO_FLANCO_CONFIRMADO:
+            pass
+            # completar el código del estado ESTADO_FLANCO_CONFIRMADO
 
 
     # Almacenar el nuevo valor de estado
