@@ -37,7 +37,7 @@ def on_message(client, userdata, message):
 
 
 if __name__ == "__main__":
-    print("GPS Mock: Sensor de posicionamiento gloal")
+    print("MQTT Local & Remoto")
 
     # ----------------------
     # Aquí conectarse a MQTT remoto

@@ -29,7 +29,7 @@ def on_connect_remoto(client, userdata, flags, rc):
 
 
 if __name__ == "__main__":
-    print("GPS Mock: Sensor de posicionamiento gloal")
+    print("MQTT Local & Remoto")
 
     # ----------------------
     # Aquí conectarse a MQTT remoto
