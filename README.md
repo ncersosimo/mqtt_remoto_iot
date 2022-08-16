@@ -5,7 +5,7 @@ Web: [Inove](http://inove.com.ar)
 
 ---
 
-# Introducción a MQTT IoT! [Python]
+# MQTT Remoto IoT! [Python]
 Instalar las dependencias de python para esta clase:
 ```sh
 $ python3 -m pip install -r requirements.txt
