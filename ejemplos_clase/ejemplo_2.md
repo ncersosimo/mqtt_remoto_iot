@@ -40,4 +40,4 @@ https://<ip_VM>:5010
 Utilizar el MQTTExplorar y verificar de esta manera el correcto funcionamiento de cada sensor disponible del celular.
 
 Ejemplo de visualización de los cambios de aceleración:
-![ejemplo_2](/ejemplo_2.png)
+![ejemplo_2](ejemplo_2.png)
