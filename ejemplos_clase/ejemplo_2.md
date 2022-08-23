@@ -38,3 +38,6 @@ https://<ip_VM>:5010
 
 ### 3 - Ensayar que el simulador funcione
 Utilizar el MQTTExplorar y verificar de esta manera el correcto funcionamiento de cada sensor disponible del celular.
+
+Ejemplo de visualización de los cambios de aceleración:
+![ejemplo_2](/ejemplo_2.png)
