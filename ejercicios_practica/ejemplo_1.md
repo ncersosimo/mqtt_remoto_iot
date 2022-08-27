@@ -1,4 +1,4 @@
-# Ejemplos de clase
+# Ejercicios de práctica
 
 En esta práctica utilizaremos el simulador "actuadores_mock" junto a la librería de Paho MQTT
 
