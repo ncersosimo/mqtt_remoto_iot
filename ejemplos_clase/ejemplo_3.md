@@ -15,7 +15,7 @@ $ ssh inove@<ip_dispositivo>
 ### 1 - Logearse al dashboard
 Utilice su usuario del campus y como contraseña "inoveiot":
 ```
-url: http://inoveiot.herokuapp.com/login
+url: http://dashboardiot.inovecode.com/login
 usuario: <usario_campus>
 password: inoveiot
 ```
